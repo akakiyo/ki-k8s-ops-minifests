@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: k8s-kiyos-manifests
+  namespace: argocd
+spec:
+  project: ki-system
+  source:
+    repoURL: git@github.com:akakiyo/k8s-kiyos-manifests.git
+    targetRevision: main
+    path: overlays/$(ENV_NAME)
+  description:
+    server: https://kubernts.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - ApplyOutOfSyncOnly=true
